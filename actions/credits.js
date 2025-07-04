@@ -1,6 +1,8 @@
 "use server"
 
 import { db } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
+import { format } from "date-fns";
 
 // Define credit allocations per plan
 const PLAN_CREDITS = {
@@ -103,6 +105,7 @@ export async function checkAndAllocateCredits(user){
 
         return updatedUser;
     } catch (error) {
-        
+        console.error("Failed to check subscription and allocate credits: ", error.message);
+        return null;
     }
 }
